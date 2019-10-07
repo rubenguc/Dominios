@@ -1,11 +1,11 @@
-import mongoose, { Schema } from 'mongoose'
+import mongoose, { Schema } from "mongoose";
 
-const { ObjectId } = Schema.Types
+const { ObjectId } = Schema.Types;
 
 const dominioSchema = new Schema({
-  nombreApli: String,
-  puerto    : number,
-  nombreDomi: String
-})
-  
-export default mongoose.model('dominio', dominioSchema)
+  nombreApp: { type: String, required: true },
+  puerto: { type: String, required: true },
+  nombreDom: { type: String, required: true }
+});
+
+export default mongoose.model("Dominio", dominioSchema);

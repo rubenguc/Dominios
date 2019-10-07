@@ -1,9 +1,8 @@
 import express from 'express'
-import multer from 'multer'
-import { Login } from '../services'
-import { Auth } from '../middleware'
+//import multer from 'multer'
+//import { Auth } from '../middleware'
 import { Admin } from '../api'
-import { handleError } from '../utils'
+//import { handleError } from '../utils'
 const app = express.Router();
 
 app.get('/',  async (req, res) => 
@@ -20,7 +19,10 @@ app.get('/',  async (req, res) =>
     } 
      catch (error) 
     {
-     handleError(error, res)
+      res.status(500).json({
+        message: 'An error ocurred',
+        error: error.toString()
+      });
     }
   })
   app.get('/:id', async (req, res) =>
@@ -35,7 +37,10 @@ app.get('/',  async (req, res) =>
     }
     catch (error) 
     {
-      handleError(error, res)
+      res.status(500).json({
+        message: 'An error ocurred',
+        error: error.toString()
+      });
     }
   })
   app.post('/login', async (req, res) =>
@@ -57,11 +62,14 @@ app.get('/',  async (req, res) =>
         res.status(201).json(token)
       }
     } catch (error) {
-      handleError(error, res)
+      res.status(500).json({
+        message: 'An error ocurred',
+        error: error.toString()
+      });
     }
 })
   
-  app.put('/', Auth.isUsuario ,  async (req, res) =>
+  app.put('/',   async (req, res) =>
    {
     try 
     {
@@ -70,11 +78,14 @@ app.get('/',  async (req, res) =>
     } 
     catch (error) 
     {
-      handleError(error, res)
+      res.status(500).json({
+        message: 'An error ocurred',
+        error: error.toString()
+      });
     }
   })
 
-  app.delete('/:id',Auth.isUsuario, async (req, res) => 
+  app.delete('/:id', async (req, res) => 
   {
     try
     {
@@ -83,7 +94,13 @@ app.get('/',  async (req, res) =>
     } 
     catch (error)
     {
-      handleError(error, res)
+      res.status(500).json({
+        message: 'An error ocurred',
+        error: error.toString()
+      });
     }
   })
+
+  export default app
+
   
