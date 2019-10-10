@@ -6,39 +6,53 @@ import { Admin } from '../api'
 import { handleError } from '../utils'
 const app = express.Router();
 
-app.get('/',  async (req, res) => {
-    try {
+app.get('/',  async (req, res) => 
+{
+    try 
+    {
       const data = await Admin.find()
-      if(data.length==0){
+      if(data.length==0)
+      {
         res.status(404).json({message:'No existe ningun Admin'})
       }
       else
         res.status(200).json(data)
-    } catch (error) {
-      handleError(error, res)
+    } 
+     catch (error) 
+    {
+     handleError(error, res)
     }
   })
-  app.get('/:id', async (req, res) => {
-    try {
+  app.get('/:id', async (req, res) =>
+   {
+    try
+     {
       const data = await Admin.findById(req.params.id)
       if(!data)
         res.status(404).json({message:`No existe el Admin con el id ${req.params.id}`})
       else
         res.status(200).json(data)
-    } catch (error) {
+    }
+    catch (error) 
+    {
       handleError(error, res)
     }
   })
-  app.post('/login', async (req, res) => {
-    try {
+  app.post('/login', async (req, res) =>
+   {
+    try
+     {
       const usuario = await Admin.loginUsuario(req.body)
-      if(usuario == 'user') {
+      if(usuario == 'user') 
+      {
         res.status(200).json({ status: 'denied', message: 'Usuario no existe'})
       }
-      else if(usuario == 'pass'){
+      else if(usuario == 'pass')
+      {
         res.status(200).json({ status: 'denied', message: 'Contraseña invalida'})
       }
-      else{
+      else
+      {
         const token = await Admin.token(usuario)
         res.status(201).json(token)
       }
@@ -47,20 +61,28 @@ app.get('/',  async (req, res) => {
     }
 })
   
-  app.put('/', Auth.isUsuario ,  async (req, res) => {
-    try {
+  app.put('/', Auth.isUsuario ,  async (req, res) =>
+   {
+    try 
+    {
       const data = await Admin.update(req.body)
       res.status(200).json({message: `El retiro con el id ${req.body._id} ha sido actualizado exitosamente`, data})
-    } catch (error) {
+    } 
+    catch (error) 
+    {
       handleError(error, res)
     }
   })
 
-  app.delete('/:id',Auth.isUsuario, async (req, res) => {
-    try {
+  app.delete('/:id',Auth.isUsuario, async (req, res) => 
+  {
+    try
+    {
       const data = await Admin.delete(req.params.id)
       res.status(200).json({message: `El Admin con el id ${req.params.id} ha sido eliminado`,data})
-    } catch (error) {
+    } 
+    catch (error)
+    {
       handleError(error, res)
     }
   })

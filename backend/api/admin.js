@@ -1,18 +1,21 @@
 import {Admin} from '../models'
 
-
-export default {
-    find: () => {
+export default 
+{
+    find: () => 
+    {
       debug(`Finding Admins for homepage with limit.`)
       return Admin.find().sort('nombre')
     },
 
-    findById: (_id) => {
+    findById: (_id) => 
+    {
         debug(`Find Admin with id: ${_id}`)
         return Admin.findById(_id)
     },
 
-    create: (q) => {
+    create: (q) =>
+     {
         debug(`Creating new Admin`)
         return Admin.findOne({email:q.email})
         .then(function(usuario){
@@ -25,16 +28,20 @@ export default {
         })
       },
 
-    loginUsuario: (q) => {
+    loginUsuario: (q) =>
+     {
         return Admin.findOne({ email: q.email})
-        .then(function(usuario){
+        .then(function(usuario)
+        {
           let status;
-          if (!usuario){
+          if (!usuario)
+          {
             console.log('El usuario no existe')
             status = 'user'
             return status
           }
-          else if(usuario.password!=q.password){
+          else if(usuario.password!=q.password)
+          {
             console.log('Contraseña incorrecta')
             status = 'pass' 
             return status
@@ -43,17 +50,20 @@ export default {
         })
       },
     
-    token: (user) => {
+    token: (user) => 
+    {
         let token = Login.createToken(user, 'Usuario')
         return { status: 'Success', message: 'Te haz logueado Exitosamente', token: token, id: user._id, user: user}
       },
 
-      update: (q) => {
+      update: (q) => 
+      {
         debug(`Updating the retiros with id: ${q._id}`)
         return Admin.updateOne({ _id: q._id }, { $set: q })
       },
 
-      delete: (_id) => {
+      delete: (_id) => 
+      {
         debug(`Removing the Admin with id: ${_id}`)
         return Admin.findOneAndRemove({ _id })
       }
