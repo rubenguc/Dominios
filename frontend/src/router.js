@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import CRUD from './components/CRUD.vue'
 import Logout from './components/Logout.vue'
-
+import Login from './views/Login.vue'
 
 Vue.use(Router)
 
@@ -14,7 +14,10 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      meta: {
+        isPublic: false
+      }
     },
     {
       path: '/CRUD',
@@ -25,6 +28,14 @@ export default new Router({
       path: '/Logout',
       name: 'logout',
       component: Logout
+    },
+    {
+      path: '/Login',
+      name: 'Login',
+      component: Login,
+      meta: {
+        isPublic: true
+      }
     }
   ]
 })
