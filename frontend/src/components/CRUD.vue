@@ -17,7 +17,7 @@
                     vertical
                     ></v-divider>
                     <v-spacer></v-spacer>
-                    <v-text-field class="text-xs-center" v-model="search" append-icon="search" label="Búsqueda" single-line hide-details></v-text-field>
+                    <v-text-field class="text-xs-center" v-model="search"  label="Búsqueda" single-line hide-details></v-text-field>
                     <v-spacer></v-spacer>
                     <v-dialog v-model="dialog" max-width="500px">
                     <template v-slot:activator="{ on }">
@@ -58,23 +58,22 @@
                 </v-toolbar>
                 </template>
                 <template v-slot:item.action="{ item }">
+                  {{item.nombreDom}}
                 <v-icon
                     small
                     class="mr-2"
                     @click="editItem(item)"
                 >
-                    Editar
+                  {{ icons.mdiPencil }}
                 </v-icon>
                 <v-icon
                     small
                     @click="deleteItem(item)"
                 >
-                     Eliminar
+                     {{ icons.mdiDelete }}
                 </v-icon>
                 </template>
-                <template v-slot:no-data>
-                <v-btn color="primary" @click="initialize">Reset</v-btn>
-                </template>
+                
             </v-data-table>        
         </v-flex>
     </v-layout>
@@ -89,6 +88,13 @@ import {
 
   export default {
     data: () => ({
+
+      dominios:[],
+  
+      icons: {
+        mdiPencil,
+        mdiDelete,
+      },
       dialog: false,
       headers: [
         {
@@ -105,14 +111,14 @@ import {
       desserts: [],
       editedIndex: -1,
       editedItem: {
-        name: '',
-        calories: '',
-        fat: '',
+        nombre: '',
+        puerto: '',
+        dominio: '',
       },
       defaultItem: {
-        name: '',
-        calories: '',
-        fat: '',
+        nombre: '',
+        puerto: '',
+        dominio: '',
       },
     }),
 
@@ -129,11 +135,24 @@ import {
     },
 
     created () {
-      this.initialize()
+      /* this.initialize() */
+      this.listarDominios();
     },
 
     methods: {
-      initialize () {
+      listarDominios(){
+      this.axios.get('dominios')
+      .then((response) => {
+        console.log(response.data)
+        this.dominios = response.data;
+      })
+      .catch((e)=>{
+        console.log('error' + e);
+      })
+    }
+  },
+
+      /* initialize () {
         this.desserts = [
           {
             nombre: 'Facebook',
@@ -162,7 +181,7 @@ import {
           },
         ]
       },
-
+ */
       editItem (item) {
         this.editedIndex = this.desserts.indexOf(item)
         this.editedItem = Object.assign({}, item)
@@ -190,6 +209,5 @@ import {
         }
         this.close()
       },
-    },
-  }
+    }
 </script>
