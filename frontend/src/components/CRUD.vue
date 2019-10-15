@@ -17,7 +17,11 @@
                     vertical
                     ></v-divider>
                     <v-spacer></v-spacer>
+<<<<<<< HEAD
                     <v-text-field class="text-xs-center" v-model="search"  label="Búsqueda" single-line hide-details></v-text-field>
+=======
+                    <v-text-field class="text-xs-center" v-model="search" label="Búsqueda" single-line hide-details></v-text-field>
+>>>>>>> fb80c7b6df88535caa72de5bef1182f16e5dadb2
                     <v-spacer></v-spacer>
                     <v-dialog v-model="dialog" max-width="500px">
                     <template v-slot:activator="{ on }">
@@ -64,7 +68,11 @@
                     class="mr-2"
                     @click="editItem(item)"
                 >
+<<<<<<< HEAD
                   {{ icons.mdiPencil }}
+=======
+                    {{ icons.mdiPencil }}
+>>>>>>> fb80c7b6df88535caa72de5bef1182f16e5dadb2
                 </v-icon>
                 <v-icon
                     small
@@ -88,12 +96,18 @@ import {
 
   export default {
     data: () => ({
+<<<<<<< HEAD
 
       dominios:[],
   
       icons: {
         mdiPencil,
         mdiDelete,
+=======
+      icons: {
+          mdiPencil, 
+          mdiDelete,
+>>>>>>> fb80c7b6df88535caa72de5bef1182f16e5dadb2
       },
       dialog: false,
       headers: [
