@@ -43,6 +43,18 @@ app.get('/',  async (req, res) =>
       });
     }
   })
+  app.post('/', async (req, res) => {
+  
+    try {
+      const data = await Admin.create(req.body)
+      res.status(201).json(data)
+    } catch (error) {
+      res.status(500).json({
+        message: 'An error ocurred',
+        error: error.toString()
+      });
+    }
+  })
   app.post('/login', async (req, res) =>
    {
     try

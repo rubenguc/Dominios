@@ -1,4 +1,5 @@
 import { Admin } from "../models";
+import { Login } from "../Services";
 
 export default {
   find: () => {
@@ -39,7 +40,7 @@ export default {
   },
 
   token: user => {
-    let token = Login.createToken(user, "Usuario");
+    let token = Login.createToken(user);
     return {
       status: "Success",
       message: "Te haz logueado Exitosamente",

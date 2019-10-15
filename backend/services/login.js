@@ -3,11 +3,11 @@ const moment = require('moment')
 
 
 export default {
-    createToken: (user,rol) => {
+    createToken: (user) => {
         const payload = {
-            sub: admin._id,
-            iat: moment.unix(),
-            exp: moment.add(14,'days').unix()
+            sub: user._id,
+            iat: moment().unix(),
+            exp: moment().add(14,'days').unix()
         }
         return jwt.encode(payload,'secret123456' )
     },
