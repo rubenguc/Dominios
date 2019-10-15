@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
-import CRUD from './components/CRUD.vue'
-import Logout from './components/Logout.vue'
-import Login from './views/Login.vue'
-
+import Login from "./views/Login.vue"
+import Home from "./views/Home.vue"
+import CRUD from "./components/CRUD.vue"
+import Dashboard from "./components/Dashboard.vue"
 Vue.use(Router)
 
 export default new Router({
@@ -13,6 +12,14 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'Login',
+      component: Login,
+      meta: {
+        isPublic: true
+      }
+    },
+    {
+      path: '/home',
       name: 'home',
       component: Home,
       meta: {
@@ -20,21 +27,19 @@ export default new Router({
       }
     },
     {
+      path: '/dashboard',
+      name: 'Dashboard',
+      component: Dashboard,
+      meta: {
+        isPublic: false
+      }
+    },
+    {
       path: '/CRUD',
       name: 'CRUD',
-      component: CRUD
-    },
-    {
-      path: '/Logout',
-      name: 'logout',
-      component: Logout
-    },
-    {
-      path: '/Login',
-      name: 'Login',
-      component: Login,
+      component: CRUD,
       meta: {
-        isPublic: true
+        isPublic: false
       }
     }
   ]
