@@ -3,7 +3,7 @@
         <v-flex>
             <v-data-table
             :headers="headers"
-            :items="desserts"
+            :items="dominios"
             :search="search"
             sort-by="nombre"
             class="elevation-1"
@@ -32,7 +32,7 @@
                         <v-container>
                             <v-row>
                             <v-col cols="12" sm="6" md="12">
-                                <v-text-field v-model="editedItem.nombre" label="Nombre de la Aplicación"></v-text-field>
+                                <v-text-field v-model="editedItem.nombreApp" label="Nombre de la Aplicación"></v-text-field>
                                 
                             </v-col>
                             <v-col cols="12" sm="6" md="12">
@@ -40,7 +40,7 @@
                                 
                             </v-col>
                             <v-col cols="12" sm="6" md="12">
-                                <v-text-field v-model="editedItem.dominio" label="Dominio"></v-text-field>
+                                <v-text-field v-model="editedItem.nombreDom" label="Dominio"></v-text-field>
                                 
                             </v-col>
                             </v-row>
@@ -49,31 +49,24 @@
 
                         <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
-                        <v-btn color="blue darken-1" text @click="save">Guardar</v-btn>
+                        <v-btn color="blue darken-1" text @click.native='close'>Cancelar</v-btn>
+                        <v-btn color="blue darken-1" text @click.native='save'>Guardar</v-btn>
                         </v-card-actions>
                     </v-card>
                     </v-dialog>
-                
                 </v-toolbar>
                 </template>
-                <template v-slot:item.action="{ item }">
-                  {{item.nombreDom}}
-                <v-icon
-                    small
-                    class="mr-2"
-                    @click="editItem(item)"
-                >
-                  {{ icons.mdiPencil }}
-                </v-icon>
-                <v-icon
-                    small
-                    @click="deleteItem(item)"
-                >
-                     {{ icons.mdiDelete }}
-                </v-icon>
-                </template>
-                
+
+                <template slot="items" slot-scope="props">
+                  <td>{{ props.item.id }}</td>
+                  <td class = "text-xs-right">{{props.item.nombreApp}}</td>
+                  <td class = "text-xs-right">{{props.item.puerto}}</td>
+                  <td class = "text-xs-right">{{props.item.nombreDom}}</td>
+                </template> 
+                 <template v-slot:item.action="{ item }">
+                <v-icon small class="mr-2" @click="editItem(item)"> {{ icons.mdiPencil }}</v-icon>
+                <v-icon small @click="deleteItem(item)"> {{ icons.mdiDelete }}</v-icon>
+                </template>                                
             </v-data-table>        
         </v-flex>
     </v-layout>
@@ -88,12 +81,9 @@ import {
 
   export default {
     data: () => ({
-
-      dominios:[],
-  
       icons: {
         mdiPencil,
-        mdiDelete,
+        mdiDelete
       },
       dialog: false,
       headers: [
@@ -101,24 +91,24 @@ import {
           text: 'Nombre de la Aplicación',
           align: 'left',
           sortable: false,
-          value: 'nombre',
+          value: 'nombreApp',
         },
         { text: 'Puerto', value: 'puerto' },
-        { text: 'Dominio', value: 'dominio' },
+        { text: 'Dominio', value: 'nombreDom' },
         { text: 'Acciones', value: 'action', sortable: false },
       ],
+      dominios:[],
       search: "",
-      desserts: [],
       editedIndex: -1,
       editedItem: {
-        nombre: '',
+        nombreApp: '',
         puerto: '',
-        dominio: '',
+        nombreDom: '',
       },
       defaultItem: {
-        nombre: '',
+        nombreApp: '',
         puerto: '',
-        dominio: '',
+        nombreDom: '',
       },
     }),
 
@@ -135,62 +125,46 @@ import {
     },
 
     created () {
-      /* this.initialize() */
-      this.listarDominios();
+      this.initialize();
     },
 
     methods: {
+
+      initialize(){
+        this.listarDominios();
+        
+      },
+
       listarDominios(){
-      this.axios.get('dominios')
+        console.log('pasa por aqui')
+      this.axios.get('/api/dominio')
       .then((response) => {
+        console.log('se ejecuta then')
         console.log(response.data)
         this.dominios = response.data;
       })
       .catch((e)=>{
+        console.log('se ejecuta error')
         console.log('error' + e);
       })
-    }
-  },
+    },
 
-      /* initialize () {
-        this.desserts = [
-          {
-            nombre: 'Facebook',
-            puerto: '1000',
-            dominio: 'LocalHost',
-          },
-        {
-            nombre: 'Instagram',
-            puerto: '4000',
-            dominio: 'LocalHost',
-          },
-          {
-            nombre: 'Twitter',
-            puerto: '3101',
-            dominio: 'Host Remoto',
-          },
-          {
-            nombre: 'WhatsApp',
-            puerto: '5555',
-            dominio: 'Host',
-          },
-          {
-            nombre: 'Stark Industries',
-            puerto: '3000',
-            dominio: 'Jarvis',
-          },
-        ]
-      },
- */
+ 
       editItem (item) {
-        this.editedIndex = this.desserts.indexOf(item)
+        this.editedIndex = this.dominios.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialog = true
       },
 
       deleteItem (item) {
-        const index = this.desserts.indexOf(item)
+        const index = this.dominios.indexOf(item)
         confirm('¿Esta seguro que desea Eliminar?') && this.desserts.splice(index, 1)
+        console.log('Datos eliminados');
+
+        this.axios.delete('/api/dominio',{nombreApp:this.editedItem.nombreApp, puerto:this.editedItem.puerto, nombreDom:this.editedItem.nombreDom})
+          .then(response=>{
+            console.log(response);
+          })
       },
 
       close () {
@@ -203,11 +177,27 @@ import {
 
       save () {
         if (this.editedIndex > -1) {
-          Object.assign(this.desserts[this.editedIndex], this.editedItem)
+          console.log('Datos guardados');
+          console.log(this.editedItem);
+
+          this.axios.put('/api/dominio',{nombreApp:this.editedItem.nombreApp, puerto:this.editedItem.puerto, nombreDom:this.editedItem.nombreDom})
+          .then(response=>{
+            console.log(response);
+          })
+
+          Object.assign(this.dominios[this.editedIndex], this.editedItem)
         } else {
-          this.desserts.push(this.editedItem)
+          console.log('Datos creados');
+          console.log(this.editedItem)
+
+          this.axios.post('/api/dominio',{nombreApp:this.editedItem.nombreApp, puerto:this.editedItem.puerto, nombreDom:this.editedItem.nombreDom})
+          .then(response=>{
+            console.log(response);
+          })       
+          this.dominios.push(this.editedItem)
         }
         this.close()
       },
     }
+  }
 </script>
