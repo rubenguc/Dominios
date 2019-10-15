@@ -101,11 +101,13 @@ import {
       search: "",
       editedIndex: -1,
       editedItem: {
+        _id:'',
         nombreApp: '',
         puerto: '',
         nombreDom: '',
       },
       defaultItem: {
+        _id:"",
         nombreApp: '',
         puerto: '',
         nombreDom: '',
@@ -149,7 +151,6 @@ import {
       })
     },
 
- 
       editItem (item) {
         this.editedIndex = this.dominios.indexOf(item)
         this.editedItem = Object.assign({}, item)
@@ -157,11 +158,12 @@ import {
       },
 
       deleteItem (item) {
+        console.log(item)
         const index = this.dominios.indexOf(item)
-        confirm('¿Esta seguro que desea Eliminar?') && this.desserts.splice(index, 1)
+        confirm('¿Esta seguro que desea Eliminar?') && this.dominios.splice(index, 1)
         console.log('Datos eliminados');
 
-        this.axios.delete('/api/dominio',{nombreApp:this.editedItem.nombreApp, puerto:this.editedItem.puerto, nombreDom:this.editedItem.nombreDom})
+        this.axios.delete('/api/dominio/'+item._id)
           .then(response=>{
             console.log(response);
           })
@@ -179,8 +181,10 @@ import {
         if (this.editedIndex > -1) {
           console.log('Datos guardados');
           console.log(this.editedItem);
+          console.log(this.editedItem._id);
 
-          this.axios.put('/api/dominio',{nombreApp:this.editedItem.nombreApp, puerto:this.editedItem.puerto, nombreDom:this.editedItem.nombreDom})
+
+          this.axios.put('/api/dominio',{_id:this.editedItem._id, nombreApp:this.editedItem.nombreApp, puerto:this.editedItem.puerto, nombreDom:this.editedItem.nombreDom})
           .then(response=>{
             console.log(response);
           })
