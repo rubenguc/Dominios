@@ -32,11 +32,16 @@
                                     >
                                     <v-col
                                         cols="1"
-                            
+                                        sm="1"
+                                        md="1"
                                     >
                                     <v-icon>{{ icons.mdiAccount }}</v-icon>
                                     </v-col>
-                                    <v-col cols="11"> 
+                                    <v-col 
+                                        cols="10"
+                                        sm="10"
+                                        md="10"
+                                    > 
                                         <v-text-field
                                             id="Login"
                                             label="Login"
@@ -51,11 +56,16 @@
                                     >
                                     <v-col
                                         cols="1"
-                            
+                                        sm="1"
+                                        md="1"
                                     >
                                     <v-icon>{{ icons.mdiLockQuestion }}</v-icon>
                                     </v-col>
-                                    <v-col cols="11">
+                                    <v-col 
+                                        cols="10"
+                                        sm="10"
+                                        md="10"    
+                                    >
                                          <v-text-field
                                         id="password"
                                         label="password"

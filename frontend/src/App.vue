@@ -1,6 +1,13 @@
 <template>
   <div id="app">
-    <Home />
+    
+    <div v-if="false">
+      <router-view />
+    </div>
+    <div v-else="">
+      <Home />
+    </div>
+
   </div>
 </template>
 
