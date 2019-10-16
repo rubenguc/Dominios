@@ -43,10 +43,11 @@
                                         md="10"
                                     > 
                                         <v-text-field
-                                            id="Login"
                                             label="Login"
                                             name="Login"
                                             type="text"
+                                            id="username"
+                                            v-model="form.email"
                                         ></v-text-field>
                                     </v-col>
                                  </v-row>
@@ -71,6 +72,7 @@
                                         label="password"
                                         name="password"
                                         type="password"
+                                        v-model="form.password"
                                     ></v-text-field>
                                     </v-col>
                                  </v-row>
@@ -100,11 +102,39 @@ import { mdiLockQuestion, mdiAccount } from '@mdi/js';
       source: String,
     },
     data: () => ({
+      form: {
+      id: 1,
+      token: "a82kddn282020",
+      email: null,
+      password: null
+    },
       drawer: null,
       icons: {
           mdiLockQuestion, 
           mdiAccount
       }
     }),
+    methods: {
+        initialize() {},
+        login() {
+        Api.post("admin/login", this.form)
+            .then(res => {
+            if (res.data.status == "Success") {
+                this.$store.dispatch("login", res.data);
+                this.$cookies.set("token", res.data.token, "5D", "");
+                window.location.href = "/home";
+            } else {
+                this.$swal.fire(
+                "Oops...",
+                "Error encontrado, usuario o contraseña incorrecta.",
+                "error"
+                );
+            }
+            })
+            .catch(err => {
+            console.log(err);
+            });
+        }
+    }
   }
 </script>
