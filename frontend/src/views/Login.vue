@@ -23,7 +23,7 @@
                 
                     </v-toolbar>
                     <v-card-text>
-                        <v-form>
+                        <v-form @submit.prevent="login">
                             <v-content>
                                 <v-container>
                                     <v-row
@@ -83,7 +83,7 @@
                 <v-card-actions>
             <v-spacer></v-spacer>
                     
-            <v-btn color="indigo" dark>Login</v-btn>
+            <v-btn color="indigo" dark @click.native='login'>Login</v-btn>
             </v-card-actions>
          </v-card>
          </v-col>
@@ -98,6 +98,7 @@
 <script>
 import { mdiLockQuestion, mdiAccount } from '@mdi/js';
   export default {
+    name: 'login',
     props: {
       source: String,
     },
@@ -114,6 +115,12 @@ import { mdiLockQuestion, mdiAccount } from '@mdi/js';
           mdiAccount
       }
     }),
+    created() {
+        this.initialize();
+        if (this.$store.state.isUserLoggedIn) {
+        this.$router.push("/");
+        }
+    },
     methods: {
         initialize() {},
         login() {

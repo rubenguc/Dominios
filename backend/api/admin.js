@@ -23,7 +23,7 @@ export default {
     });
   },
 
-  loginUsuario: q => {
+  login: q => {
     return Admin.findOne({ email: q.email }).then(function(usuario) {
       let status;
       if (!usuario) {
