@@ -45,8 +45,8 @@
                                         <v-text-field
                                             label="Login"
                                             name="Login"
-                                            type="text"
-                                            id="username"
+                                            type="email"
+                                            id="email"
                                             v-model="form.email"
                                         ></v-text-field>
                                     </v-col>
@@ -96,8 +96,12 @@
 </template>
 
 <script>
-import { mdiLockQuestion, mdiAccount } from '@mdi/js';
+  import { mdiLockQuestion, mdiAccount } from '@mdi/js';
+  import Api from "@/services/methods";
+  import { server, port } from "@/services/environment";
   export default {
+    ruta: server + ":" + port,
+    settings: {},
     name: 'login',
     props: {
       source: String,
@@ -124,13 +128,17 @@ import { mdiLockQuestion, mdiAccount } from '@mdi/js';
     methods: {
         initialize() {},
         login() {
+        console.log('entro en login')
         Api.post("admin/login", this.form)
             .then(res => {
+                console.log('entro en api')
             if (res.data.status == "Success") {
+                console.log('entro en donde deberia')
                 this.$store.dispatch("login", res.data);
                 this.$cookies.set("token", res.data.token, "5D", "");
                 window.location.href = "/home";
             } else {
+                console.log('entro en donde no deberia')
                 this.$swal.fire(
                 "Oops...",
                 "Error encontrado, usuario o contraseña incorrecta.",
