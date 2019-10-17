@@ -59,7 +59,7 @@ app.get('/',  async (req, res) =>
    {
     try
      {
-      const usuario = await Admin.loginUsuario(req.body)
+      const usuario = await Admin.login(req.body)
       if(usuario == 'user') 
       {
         res.status(200).json({ status: 'denied', message: 'Usuario no existe'})

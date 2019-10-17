@@ -99,6 +99,10 @@
   import { mdiLockQuestion, mdiAccount } from '@mdi/js';
   import Api from "@/services/methods";
   import { server, port } from "@/services/environment";
+  import Vue from 'vue';
+  import VueCookies from 'vue-cookies';
+
+  Vue.use(VueCookies)
   export default {
     ruta: server + ":" + port,
     settings: {},
@@ -135,8 +139,9 @@
             if (res.data.status == "Success") {
                 console.log('entro en donde deberia')
                 this.$store.dispatch("login", res.data);
-                this.$cookies.set("token", res.data.token, "5D", "");
-                window.location.href = "/home";
+                this.$cookies.set("token", res.data.token, "5D");
+                console.log(this.$cookies.get('token'));
+                window.location.href = "/dashboard";
             } else {
                 console.log('entro en donde no deberia')
                 this.$swal.fire(

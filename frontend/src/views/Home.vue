@@ -21,12 +21,12 @@
             <v-list-item-title>CRUD</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item :to="{name: 'logout'}">
+        <v-list-item>
           <v-list-item-action>
             <v-icon>mdi-contact-mail</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Cerrar Sesión</v-list-item-title>
+            <v-list-item-title @click='logout'>Cerrar Sesión</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -66,6 +66,14 @@ export default {
   name: 'App',
   data: () => ({
     drawer: null
-  })
+  }),
+  methods: {
+    logout() {
+      this.$store.dispatch("logout");
+      this.$cookies.set("token", [], "5D", "");
+      this.sesion = '';
+      window.location.href = "/login";
+    }
+  }
 }
 </script>

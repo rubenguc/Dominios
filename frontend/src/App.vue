@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     
-    <div v-if='true'>
+    <div v-if='!sesion'>
       <router-view />
     </div>
     <div v-else="">
@@ -23,8 +23,9 @@ export default {
   }),
   sesion: [],
   created() {
-    this.sesion = this.$store.state.usuario;
-    if (this.$route.meta.isPublic === false && !this.$store.state.token) {
+    this.sesion = this.$cookies.get('token');
+    console.log(this.sesion);
+    if (this.$route.meta.isPublic === false && !this.sesion) {
       window.location.href = "/dashboard";
     }
   },
@@ -32,7 +33,8 @@ export default {
     logout() {
       this.$store.dispatch("logout");
       this.$cookies.set("token", [], "5D", "");
-      window.location.href = "/";
+      this.sesion = '';
+      window.location.href = "/login";
     }
   }
 }
