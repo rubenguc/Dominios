@@ -132,18 +132,13 @@
     methods: {
         initialize() {},
         login() {
-        console.log('entro en login')
         Api.post("admin/login", this.form)
             .then(res => {
-                console.log('entro en api')
             if (res.data.status == "Success") {
-                console.log('entro en donde deberia')
                 this.$store.dispatch("login", res.data);
                 this.$cookies.set("token", res.data.token, "5D");
-                console.log(this.$cookies.get('token'));
                 window.location.href = "/dashboard";
             } else {
-                console.log('entro en donde no deberia')
                 this.$swal.fire(
                 "Oops...",
                 "Error encontrado, usuario o contraseña incorrecta.",

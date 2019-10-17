@@ -24,7 +24,6 @@ export default {
   sesion: [],
   created() {
     this.sesion = this.$cookies.get('token');
-    console.log(this.sesion);
     if (this.$route.meta.isPublic === false && !this.sesion) {
       window.location.href = "/dashboard";
     }
